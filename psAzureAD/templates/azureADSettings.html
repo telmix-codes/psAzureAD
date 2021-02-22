@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Microsoft Azure Active Directory Sync</title>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="/lib/pmdynaform/build/css/PMDynaform.css">
+        <link rel="stylesheet" href="/lib/pmdynaform/libs/font-awesome-4.6.3/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/plugin/psAzureAD/css/bootstrap/bootstrap.min.css" >
+        <link rel="stylesheet" href="/plugin/psAzureAD/css/datatable/datatables.min.css">
+        <link rel="stylesheet" href="/plugin/psAzureAD/css/azureStyle.css">
+
+        <script type="text/javascript" src="/lib/pmdynaform/libs/moment/moment.min.js"></script>
+        <script type="text/javascript" src="/lib/pmdynaform/libs/jquery/jquery-1.11.js"></script>
+        <script type="text/javascript" src="/lib/pmdynaform/libs/underscore/underscore-1.8.3.js"></script>
+        <script type="text/javascript" src="/lib/pmdynaform/libs/backbone/backbone-min.js"></script>
+        <script type="text/javascript" src="/lib/pmdynaform/libs/html5/html5.js"></script>
+        <script type="text/javascript" src="/lib/pmdynaform/libs/respondjs/respond.min.js"></script>
+        <script type="text/javascript" src="/plugin/psAzureAD/js/bootstrap/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/plugin/psAzureAD/js/bootbox/bootbox.min.js"></script>
+        <script type="text/javascript" src="/plugin/psAzureAD/js/json2/json2.js"></script>
+        <script type="text/javascript" src="/plugin/psAzureAD/js/base64/base64.min.js"></script>
+        <script type="text/javascript" src="/plugin/psAzureAD/js/datatable/dataTables.min.js"></script>
+        <script type="text/javascript" src="/plugin/psAzureAD/js/datatable/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="/plugin/psAzureAD/js/loadingoverlay/loadingoverlay.min.js"></script>
+    </head>
+    <body class="font-body">
+        <div class="row" style="padding: 20px;">
+            <div class="col-12">
+                <div class="text-white" style="background-color: #2378D4; padding-top: 5px; padding-bottom: 5px; text-align: -webkit-center;">
+                    <span ><img src="/plugin/psAzureAD/images/logoAzureAD.png"></span> <span style="font-size: 1.2rem;">Microsoft Azure Active Directory Sync</span>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="nav nav-pills" id="pills-tab" role="tablist">
+                    <a class="nav-link active" id="pills-settings-tab" data-toggle="pill" href="#pills-settings" role="tab" aria-controls="pills-settings" aria-selected="true">
+                        <img src="/plugin/psAzureAD/images/cog.png" class="iconsMenu" id="pills-settings-img"> Settings
+                    </a>
+                    <a class="nav-link" id="pills-users-tab" data-toggle="pill" href="#pills-users" role="tab" aria-controls="pills-users" aria-selected="false">
+                        <img src="/plugin/psAzureAD/images/user.png" class="iconsMenu" id="pills-users-img"> Users
+                    </a>
+                    <a class="nav-link" id="pills-groups-tab" data-toggle="pill" href="#pills-groups" role="tab" aria-controls="pills-groups" aria-selected="false">
+                        <img src="/plugin/psAzureAD/images/group.png" class="iconsMenu" id="pills-groups-img"> Groups
+                    </a>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-settings" role="tabpanel" aria-labelledby="pills-settings-tab">
+                        <!-- Setting -->
+                        <div class="row">
+                            <div class="col-lg-3 col-md-2 col-sm-2"></div>
+                            <div class="col-lg-6 col-md-8 col-sm-8">
+                                <div class="card card-bordered card-offer">
+                                    <div class="row hero">
+                                        <div class="text-center">
+                                            <p style="margin-right: 20px; margin-top: 10px; margin-left: 20px;">
+                                                <img src="/plugin/psAzureAD/images/cog.png">
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p class="text-heading4">Azure Active Directory</p>
+                                            <p style="font-size: 13px;">Settings</p>
+                                            <input type="hidden" id="configId">
+                                        </div>
+                                    </div>
+                                    <div class="container">
+                                        <div class="form-group row">
+                                            <label class="col-form-label">Tenant ID: <span style="color:red">*</span> </label>
+                                            <input type="text" placeholder="Tenand ID" class="form-control" id="tenantId">
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label">Client ID: <span style="color:red">*</span> </label>
+                                            <input type="text" placeholder="Client ID" class="form-control" id="clientId">
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label">Client Secret: <span style="color:red">*</span> </label>
+                                            <input type="text" placeholder="Client Secret" class="form-control" id="clientSecret">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="container">
+                                        <div class="form-group row">
+                                            <button class="col-lg-4 col-md-4 col-sm-6 col-xs-12 button button--primary01" onclick="saveConfiguration()">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                        </div>
+                        <!-- End Setting -->
+                    </div>
+                    <div class="tab-pane fade" id="pills-users" role="tabpanel" aria-labelledby="pills-users-tab">
+                        <!-- Get Users -->
+                        <div class="col-12" style="padding: 0px;">
+                            <div class="card card-bordered card-offer">
+                                <div class="row hero">
+                                    <div>
+                                        <p style="margin-right: 20px; margin-left: 20px;">
+                                            <img src="/plugin/psAzureAD/images/user.png">
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="text-heading4">User Synchronization</p>
+                                        <p style="font-size: 13px;">Azure Active Directory</p>
+                                    </div>
+                                </div>
+                                <div class="container">
+                                    <div class="col-12" style="margin-top: 10px; margin-bottom: 10px;">
+                                        <table id="userTable" class="display nowrap" style="width:100%; border: #EAEBEC solid 1px; display: none;">
+                                            <thead>
+                                                <tr>
+                                                    <th><input type="checkbox" id="checkAllUsers"></th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Email</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Email</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Get Users -->
+                    </div>
+                    <div class="tab-pane fade" id="pills-groups" role="tabpanel" aria-labelledby="pills-groups-tab">
+                        <!-- Get Groups -->
+                        <div class="col-12" style="padding: 0px;">
+                            <div class="card card-bordered card-offer">
+                                <div class="row hero">
+                                    <div class="text-center">
+                                        <p style="margin-right: 20px; margin-left: 20px;">
+                                            <img src="/plugin/psAzureAD/images/group.png">
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="text-heading4">Group Synchronization</p>
+                                        <span style="font-size: 13px;">Azure Active Directory</span>
+                                    </div>
+                                </div>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-1"></div>
+                                        <div class="col-10" style="margin-top: 10px; margin-bottom: 10px;">
+                                            <table id="groupTable" class="display nowrap" style="width:100%; border: #EAEBEC solid 1px; display: none;">
+                                                <thead>
+                                                    <tr>
+                                                        <th><input type="checkbox" id="checkAllGroups"></th>
+                                                        <th>Group Name</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Group Name</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <div class="col-1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Get Groups -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
